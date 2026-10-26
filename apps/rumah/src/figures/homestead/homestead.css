@@ -1,0 +1,270 @@
+/* Homestead figure tokens and styles. Dark values first, light overrides after (the kit's own order). */
+.hs {
+  --hs-cavity: #121312;
+  --hs-floor: #1b1d1c;
+  --hs-glass: #2a2e30;
+  --hs-flow: var(--anatomy-lit);
+  --hs-glow: #ffd58a;
+  --night: 0;
+}
+.iso[data-theme="light"] .hs,
+.iso[data-theme="light"].hs {
+  --hs-cavity: #dcdcd6;
+  --hs-floor: #cfd2cf;
+  --hs-glass: #eef2f3;
+  --hs-flow: #2c6f93;
+  --hs-glow: #f2a93b;
+}
+
+.hs .hs-cavity { fill: var(--hs-cavity); }
+.hs .hs-soil { fill: var(--hs-floor); }
+.hs .hs-glass .iso-face,
+.hs .hs-glass path:first-child { fill: var(--hs-glass); }
+
+/* Opening the house: the near facade steps aside so the rooms show; the stubs at its foot stay. */
+.hs[data-open] .hs-facade { display: none; }
+
+/* ── Stage: back SVG and front SVG on one viewBox ── */
+.hs-stage { position: relative; touch-action: pan-y; outline: none; overflow: hidden; }
+.hs-stage:focus-visible { outline: 1px solid var(--anatomy-muted); outline-offset: 6px; }
+.hs-stage > svg, .hs-stage > canvas { display: block; width: 100%; height: auto; }
+.hs-stage > .hs-front { position: absolute; inset: 0; height: 100% !important; pointer-events: none; }
+
+/* 360: another corner's static drawing laid over the live stage. */
+.hs-stage > .hs-corner { position: absolute; inset: 0; background: var(--anatomy-card, var(--anatomy-paper)); }
+.hs-stage > .hs-corner > svg { display: block; width: 100%; height: 100%; }
+
+/* ── Night: every token of the drawing is mixed toward a moonlit set by --night, so order and occlusion stay true. ── */
+.hs {
+  --hs-day-paper: var(--anatomy-paper); --hs-day-face: var(--anatomy-face); --hs-day-top: var(--anatomy-top);
+  --hs-day-s0: var(--anatomy-shade-0); --hs-day-s1: var(--anatomy-shade-1); --hs-day-s2: var(--anatomy-shade-2); --hs-day-s3: var(--anatomy-shade-3);
+  --hs-day-hi: var(--anatomy-hi); --hs-day-mid: var(--anatomy-mid); --hs-day-lo: var(--anatomy-lo); --hs-day-faint: var(--anatomy-faint);
+  --hs-n-paper: #0d1014; --hs-n-face: #141920; --hs-n-top: #151a21;
+  --hs-n-s0: #0a0d10; --hs-n-s1: #0c0f13; --hs-n-s2: #0e1216; --hs-n-s3: #10141a;
+  --hs-n-hi: #9aa7b4; --hs-n-mid: #4a5562; --hs-n-lo: #2c343e; --hs-n-faint: #1e252d;
+}
+.iso[data-theme="light"] .hs, .iso[data-theme="light"].hs {
+  --hs-n-paper: #8f9aa6; --hs-n-face: #a3adb8; --hs-n-top: #a7b1bc;
+  --hs-n-s0: #77828e; --hs-n-s1: #7f8a96; --hs-n-s2: #87929e; --hs-n-s3: #8e99a5;
+  --hs-n-hi: #1b2129; --hs-n-mid: #4c5560; --hs-n-lo: #66707b; --hs-n-faint: #7c8692;
+}
+.hs-stage {
+  --nm: calc(var(--night) * 100%);
+  --anatomy-paper: color-mix(in srgb, var(--hs-n-paper) var(--nm), var(--hs-day-paper));
+  --anatomy-face: color-mix(in srgb, var(--hs-n-face) var(--nm), var(--hs-day-face));
+  --anatomy-top: color-mix(in srgb, var(--hs-n-top) var(--nm), var(--hs-day-top));
+  --anatomy-shade-0: color-mix(in srgb, var(--hs-n-s0) var(--nm), var(--hs-day-s0));
+  --anatomy-shade-1: color-mix(in srgb, var(--hs-n-s1) var(--nm), var(--hs-day-s1));
+  --anatomy-shade-2: color-mix(in srgb, var(--hs-n-s2) var(--nm), var(--hs-day-s2));
+  --anatomy-shade-3: color-mix(in srgb, var(--hs-n-s3) var(--nm), var(--hs-day-s3));
+  --anatomy-hi: color-mix(in srgb, var(--hs-n-hi) var(--nm), var(--hs-day-hi));
+  --anatomy-mid: color-mix(in srgb, var(--hs-n-mid) var(--nm), var(--hs-day-mid));
+  --anatomy-lo: color-mix(in srgb, var(--hs-n-lo) var(--nm), var(--hs-day-lo));
+  --anatomy-faint: color-mix(in srgb, var(--hs-n-faint) var(--nm), var(--hs-day-faint));
+  --glow: color-mix(in srgb, var(--hs-glow) var(--nm), transparent);
+}
+/* Lamps, lanterns and windows light up warm as night falls. */
+.hs-stage .hs-lamp > .iso-fill, .hs-stage .hs-lamp > .iso-top, .hs-stage .hs-lamp > .iso-shade,
+.hs-stage .hs-lantern > .iso-fill, .hs-stage .hs-lantern > .iso-top, .hs-stage .hs-lantern > .iso-shade {
+  fill: color-mix(in srgb, var(--hs-glow) var(--nm), var(--anatomy-top));
+}
+.hs-stage .hs-glass > .iso-fill, .hs-stage .hs-glass > .iso-top, .hs-stage .hs-glass > .iso-shade {
+  fill: color-mix(in srgb, var(--hs-glow) calc(var(--night) * 70%), var(--hs-glass));
+}
+/* ── Controls under the drawing ── */
+.hs-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; font-family: var(--anatomy-mono); font-size: 11px; letter-spacing: .04em; }
+.hs-segment { display: inline-flex; border-radius: 8px; box-shadow: var(--anatomy-lift); overflow: hidden; }
+.hs-segment .hs-button { box-shadow: none; border-radius: 0; }
+.hs-segment .hs-button + .hs-button { border-left: 1px solid color-mix(in srgb, var(--anatomy-muted) 30%, transparent); }
+.hs-button {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border: 0; border-radius: 8px; cursor: pointer;
+  background: var(--anatomy-card); color: var(--anatomy-text); font: inherit; box-shadow: var(--anatomy-lift);
+  transition: color 200ms var(--anatomy-ease), background 200ms var(--anatomy-ease);
+}
+.hs-button:hover { color: var(--anatomy-strong); }
+.hs-button:focus-visible { outline: 1px solid var(--anatomy-muted); outline-offset: 2px; }
+.hs-button[data-on] { color: var(--anatomy-strong); background: color-mix(in srgb, var(--anatomy-strong) 7%, var(--anatomy-card)); }
+.hs-button kbd { font: inherit; font-size: 10px; padding: 0 4px; border-radius: 3px; color: var(--anatomy-muted); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--anatomy-muted) 40%, transparent); }
+.hs-lamp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--anatomy-muted); transition: background 300ms; }
+.hs-button[data-on] .hs-lamp-dot { background: var(--hs-flow); box-shadow: 0 0 0 3px color-mix(in srgb, var(--hs-flow) 20%, transparent); }
+.hs-views { flex-wrap: wrap; flex-basis: 100%; width: max-content; max-width: 100%; }
+.hs-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hs .hs-hen { will-change: transform; transition: opacity 600ms; }
+
+@media (max-width: 520px) {
+  .hs .iso-plate { overflow: hidden; }
+  .hs-stage { margin: 0 -6%; }
+  .hs .iso-plate-corner[data-corner="hint"] { display: none; }
+  .hs .iso-plate-corner[data-corner="readout"] { left: auto; max-width: calc(100% - 32px); white-space: normal; text-align: right; line-height: 1.5; }
+}
+
+/* ── Edit box ── */
+.hs-edit { margin-top: 20px; padding: 16px; border-radius: 12px; background: var(--anatomy-card); box-shadow: var(--anatomy-lift); font-size: 14px; }
+.hs-edit-label { display: block; margin-bottom: 8px; font-family: var(--anatomy-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--anatomy-muted); }
+.hs-edit-row { display: flex; gap: 8px; align-items: stretch; }
+.hs-edit-input {
+  flex: 1; min-width: 0; resize: vertical; padding: 10px 12px; border: 0; border-radius: 8px; font: inherit; line-height: 1.45;
+  color: var(--anatomy-strong); background: var(--anatomy-page); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--anatomy-muted) 35%, transparent);
+}
+.hs-edit-input:focus-visible { outline: 1px solid var(--anatomy-muted); outline-offset: 2px; }
+.hs-edit-send { padding: 0 18px; font-family: var(--anatomy-mono); }
+.hs-button:disabled, .hs-chip:disabled { opacity: .45; cursor: default; }
+.hs-edit-examples { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.hs-chip { padding: 4px 10px; border: 0; border-radius: 999px; font: inherit; font-size: 12px; cursor: pointer; color: var(--anatomy-text); background: var(--anatomy-page); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--anatomy-muted) 30%, transparent); }
+.hs-chip:hover:not(:disabled) { color: var(--anatomy-strong); }
+.hs-edit-token { display: flex; gap: 8px; align-items: center; margin-top: 10px; font-size: 12px; }
+.hs-edit-token input { padding: 6px 8px; border: 0; border-radius: 6px; font: inherit; background: var(--anatomy-page); color: var(--anatomy-strong); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--anatomy-muted) 35%, transparent); }
+.hs-edit-status { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 22px; margin-top: 12px; color: var(--anatomy-text); }
+.hs-edit-status[data-kind="error"] { color: var(--anatomy-red); }
+.hs-edit-note { color: var(--anatomy-muted); }
+.hs-spinner { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--anatomy-muted) 40%, transparent); border-top-color: var(--anatomy-strong); animation: hs-spin 800ms linear infinite; }
+@keyframes hs-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .hs-spinner { animation: none; } }
+.hs-edit-actions { display: flex; gap: 8px; margin-top: 10px; font-family: var(--anatomy-mono); font-size: 11px; }
+
+/* ── Colour mode ([data-color] on the figure) ──
+   Each item carries a material class (hs-m-*) from the scene build. A material sets --mc; the shared rules below
+   shade it into the kit's four side tones and dim it toward a moonlit blue as --night rises. Edges stay ink. */
+.hs[data-color] {
+  --m-roof: #c0674a; --m-roof2: #6f8f6a; --m-trim: #f4f1ea; --m-wall: #efe4d2; --m-floor: #dcbc90; --m-wood: #b98a5a;
+  --m-fabric: #4f8a8b; --m-fabric2: #6c8fb8; --m-linen: #f4f0e8; --m-rug: #c46d5e; --m-dark: #3a3d42; --m-appliance: #eef0f0;
+  --m-stone: #bdb9ae; --m-clay: #c9714f; --m-metal: #9aa3a8; --m-pvc: #f2f2ef; --m-tank: #3f6b5a; --m-hen: #c28a4e; --m-car: #d8dde0;
+  --m-bark: #8a6343; --m-iron: #4b4f55; --m-accent: #e0a03a; --m-leaf: #7fae5b; --m-grass: #a9c97f; --m-soil: #9c7b5b;
+  --m-plinth: #6b5a4a; --m-light: 100%;
+}
+.iso[data-theme="dark"] .hs[data-color], .iso:not([data-theme]) .hs[data-color] { --m-light: 62%; }
+.hs[data-color] .hs-m-roof { --mc: var(--m-roof); }
+.hs[data-color] .hs-m-roof2 { --mc: var(--m-roof2); }
+.hs[data-color] .hs-m-trim { --mc: var(--m-trim); }
+.hs[data-color] .hs-m-wall { --mc: var(--m-wall); }
+.hs[data-color] .hs-m-floor { --mc: var(--m-floor); }
+.hs[data-color] .hs-m-wood { --mc: var(--m-wood); }
+.hs[data-color] .hs-m-fabric { --mc: var(--m-fabric); }
+.hs[data-color] .hs-m-fabric2 { --mc: var(--m-fabric2); }
+.hs[data-color] .hs-m-linen { --mc: var(--m-linen); }
+.hs[data-color] .hs-m-rug { --mc: var(--m-rug); }
+.hs[data-color] .hs-m-dark { --mc: var(--m-dark); }
+.hs[data-color] .hs-m-appliance { --mc: var(--m-appliance); }
+.hs[data-color] .hs-m-stone { --mc: var(--m-stone); }
+.hs[data-color] .hs-m-clay { --mc: var(--m-clay); }
+.hs[data-color] .hs-m-metal { --mc: var(--m-metal); }
+.hs[data-color] .hs-m-pvc { --mc: var(--m-pvc); }
+.hs[data-color] .hs-m-tank { --mc: var(--m-tank); }
+.hs[data-color] .hs-m-hen { --mc: var(--m-hen); }
+.hs[data-color] .hs-m-car { --mc: var(--m-car); }
+.hs[data-color] .hs-m-bark { --mc: var(--m-bark); }
+.hs[data-color] .hs-m-iron { --mc: var(--m-iron); }
+.hs[data-color] .hs-m-accent { --mc: var(--m-accent); }
+.hs[data-color] .hs-m-plinth { --mc: var(--m-plinth); }
+.hs[data-color] .hs-m-grass { --mc: var(--m-soil); }
+.hs[data-color] .hs-m-leaf, .hs[data-color] .hs-leaf, .hs[data-color] .hs-crown { --mc: var(--m-leaf); }
+
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) {
+  --mn: color-mix(in srgb, color-mix(in srgb, var(--mc) var(--m-light), #0b0b0b) calc(100% - var(--night) * 70%), #1b2633);
+}
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) .iso-fill,
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) .iso-top,
+.hs[data-color] :is(.hs-leaf, .hs-crown).iso-solid > .iso-fill,
+.hs[data-color] :is(.hs-leaf, .hs-crown).iso-solid > .iso-top { fill: var(--mn); stroke: var(--mn); }
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) .iso-shade[data-shade="3"] { fill: color-mix(in srgb, var(--mn) 91%, #000); stroke: color-mix(in srgb, var(--mn) 91%, #000); }
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) .iso-shade[data-shade="2"] { fill: color-mix(in srgb, var(--mn) 84%, #000); stroke: color-mix(in srgb, var(--mn) 84%, #000); }
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) .iso-shade[data-shade="1"] { fill: color-mix(in srgb, var(--mn) 77%, #000); stroke: color-mix(in srgb, var(--mn) 77%, #000); }
+.hs[data-color] :is([class*="hs-m-"], .hs-leaf, .hs-crown) .iso-shade[data-shade="0"] { fill: color-mix(in srgb, var(--mn) 70%, #000); stroke: color-mix(in srgb, var(--mn) 70%, #000); }
+/* Only seamless (smoothly shaded) solids want strokes in their own tone; plain prisms keep fills only. */
+.hs[data-color] .iso-solid:not([data-seamless]) > :is(.iso-fill, .iso-top, .iso-shade) { stroke: none; }
+/* Small coloured details: fruit, flowers, laundry, tyres. They keep their ink tone outside colour mode. */
+.hs[data-color] .hs-fruit-red circle { fill: #d6402e; }
+.hs[data-color] .hs-fruit-purple circle { fill: #6b3f7a; }
+.hs[data-color] .hs-fruit-orange circle { fill: #e9902d; }
+.hs[data-color] .hs-fruit-yellow circle { fill: #e8c53a; }
+.hs[data-color] .hs-flowers circle { fill: #e2668f; }
+.hs[data-color] .hs-blades path { stroke: #4f8a3a; }
+.hs[data-color] .hs-tyre :is(.iso-fill, .iso-top, .iso-shade) { fill: #2a2c2f; }
+.hs[data-color] .hs-cloth-0 > :is(.iso-fill, .iso-top, .iso-shade) { fill: #f1efe8; }
+.hs[data-color] .hs-cloth-1 > :is(.iso-fill, .iso-top, .iso-shade) { fill: #6c8fb8; }
+.hs[data-color] .hs-cloth-2 > :is(.iso-fill, .iso-top, .iso-shade) { fill: #e0a03a; }
+.hs[data-color] .hs-cloth-3 > :is(.iso-fill, .iso-top, .iso-shade) { fill: #c46d5e; }
+/* Soil: bed tops, herb boxes and the mulch rings under trees and shrubs, dimmed with the night like the rest. */
+.hs[data-color] .hs-soil { fill: color-mix(in srgb, color-mix(in srgb, #7b5a3c var(--m-light), #0b0b0b) calc(100% - var(--night) * 70%), #1b2633); }
+.hs[data-color] .hs-soil-pit > :is(.iso-fill, .iso-top, .iso-shade) { fill: color-mix(in srgb, color-mix(in srgb, #8a6646 var(--m-light), #0b0b0b) calc(100% - var(--night) * 70%), #1b2633); }
+.hs[data-color] :is(.hs-crumbs, .hs-soil-pit) circle { fill: #4e3825; }
+/* The lawn: grass on top, soil on the sides. */
+.hs[data-color] .hs-m-grass > .iso-top { fill: color-mix(in srgb, color-mix(in srgb, var(--m-grass) var(--m-light), #0b0b0b) calc(100% - var(--night) * 70%), #1b2633); }
+/* Glass, lamps and the lit accent keep their own rules from above. */
+.hs[data-color] .hs-glass > :is(.iso-fill, .iso-top, .iso-shade) { fill: color-mix(in srgb, var(--hs-glow) calc(var(--night) * 70%), #cfe3ea); }
+.hs[data-color] .hs-lamp > :is(.iso-fill, .iso-top, .iso-shade), .hs[data-color] .hs-lantern > :is(.iso-fill, .iso-top, .iso-shade) { fill: color-mix(in srgb, var(--hs-glow) var(--nm), #f4efe2); }
+.hs-edit-photo { padding: 0 14px; font-family: var(--anatomy-mono); }
+.hs-edit-photo-preview { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 12px; color: var(--anatomy-text); }
+.hs-edit-photo-preview img { width: 64px; height: 48px; object-fit: cover; border-radius: 6px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--anatomy-muted) 35%, transparent); }
+
+/* ── Interaction: hotspots, door, harvest, room lights, garden lamps, dusk ── */
+.hs-stage > .hs-front { pointer-events: none; }
+.hs-stage .it[data-h] { pointer-events: visiblePainted; cursor: pointer; }
+.hs-stage .it[data-h="house"] { cursor: default; }
+.hs-stage[data-dragging] .it[data-h] { cursor: grabbing; }
+.hs[data-hot="door"] .it[data-h="door"], .hs[data-hot="living"] .it[data-h="living"], .hs[data-hot="kitchen"] .it[data-h="kitchen"],
+.hs[data-hot="wetkitchen"] .it[data-h="wetkitchen"], .hs[data-hot="bath"] .it[data-h="bath"], .hs[data-hot="laundry"] .it[data-h="laundry"],
+.hs[data-hot="master"] .it[data-h="master"], .hs[data-hot="bed2"] .it[data-h="bed2"], .hs[data-hot="terrace"] .it[data-h="terrace"],
+.hs[data-hot="carport"] .it[data-h="carport"], .hs[data-hot="car"] .it[data-h="car"], .hs[data-hot="motorcycle"] .it[data-h="motorcycle"],
+.hs[data-hot="beds"] .it[data-h="beds"], .hs[data-hot="herbs"] .it[data-h="herbs"], .hs[data-hot="fruits"] .it[data-h="fruits"],
+.hs[data-hot="drying"] .it[data-h="drying"], .hs[data-hot="coop"] .it[data-h="coop"], .hs[data-hot="hen"] .it[data-h="hen"],
+.hs[data-hot="compost"] .it[data-h="compost"], .hs[data-hot="shed"] .it[data-h="shed"], .hs[data-hot="homestead"] .it[data-h="homestead"],
+.hs[data-hot="water"] .it[data-h="water"], .hs[data-hot="lamps"] .it[data-h="lamps"], .hs[data-hot="trees"] .it[data-h="trees"] { filter: brightness(1.07) saturate(1.15); }
+
+/* The front door: closed by default, swung open on click. */
+.hs .hs-door-open { display: none; }
+.hs[data-door="open"] .hs-door-open { display: inline; }
+.hs[data-door="open"] .hs-door-closed { display: none; }
+
+/* Harvest: plants shrink into their cups, then grow back. */
+.hs .hs-plant { transform-box: fill-box; transform-origin: 50% 100%; transition: transform 5.5s cubic-bezier(.2,.7,.2,1); }
+.hs[data-harvest] .hs-plant { transform: scale(0.18); transition: transform 0.45s ease-in; }
+
+/* Ripe fruit sways when a tree is shaken. */
+.hs .it[data-h="fruits"] { transform-box: fill-box; transform-origin: 50% 100%; }
+.hs .hs-shake { animation: hs-shake 900ms cubic-bezier(.3,.6,.3,1); }
+@keyframes hs-shake { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-2.4deg); } 45% { transform: rotate(1.8deg); } 70% { transform: rotate(-0.9deg); } }
+@media (prefers-reduced-motion: reduce) { .hs .hs-shake { animation: none; } }
+
+/* Car headlights. */
+.hs .hs-headlight circle { transition: fill 300ms, filter 300ms; }
+.hs [data-lights] .hs-headlight circle { fill: var(--hs-glow); filter: drop-shadow(0 0 2px var(--hs-glow)); }
+
+/* Room lights, switched one room at a time (they also come on with the night). */
+.hs-stage [data-lamp-room] .hs-lamp > :is(.iso-fill, .iso-top, .iso-shade) { transition: fill 400ms; }
+.hs[data-room-living] [data-lamp-room="living"] .hs-lamp > :is(.iso-fill, .iso-top, .iso-shade),
+.hs[data-room-kitchen] [data-lamp-room="kitchen"] .hs-lamp > :is(.iso-fill, .iso-top, .iso-shade),
+.hs[data-room-master] [data-lamp-room="master"] .hs-lamp > :is(.iso-fill, .iso-top, .iso-shade),
+.hs[data-room-bed2] [data-lamp-room="bed2"] .hs-lamp > :is(.iso-fill, .iso-top, .iso-shade),
+.hs[data-garden-lamps] .hs-lantern > :is(.iso-fill, .iso-top, .iso-shade) { fill: var(--hs-glow) !important; }
+
+/* Dawn and dusk: a warm wash over the drawing that peaks at sunrise and sunset. */
+.hs-stage > .hs-dusk { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 30% 20%, #ffb36b, #ff8a5c 60%, #b0607a); mix-blend-mode: multiply; opacity: calc(var(--dusk, 0) * 0.32); }
+.iso[data-theme="dark"] .hs-stage > .hs-dusk { mix-blend-mode: soft-light; opacity: calc(var(--dusk, 0) * 0.5); }
+
+/* The info card that follows the pointer. */
+.hs .iso-plate { position: relative; }
+.hs-tip {
+  position: absolute; z-index: 5; max-width: 240px; padding: 8px 10px; border-radius: 8px; pointer-events: none;
+  display: grid; gap: 2px; font-size: 12px; line-height: 1.4; color: var(--anatomy-text);
+  background: color-mix(in srgb, var(--anatomy-card) 94%, transparent); box-shadow: var(--anatomy-lift);
+  backdrop-filter: blur(6px); transform: translate(-50%, calc(-100% - 14px));
+}
+.hs-tip[hidden] { display: none; }
+.hs-tip-title { color: var(--anatomy-strong); font-weight: 600; }
+.hs-tip-act { font-style: normal; font-family: var(--anatomy-mono); font-size: 10.5px; color: var(--anatomy-muted); }
+.hs-tip-act:empty { display: none; }
+
+/* Time of day controls. */
+.hs-time { display: flex; align-items: center; gap: 8px; flex-basis: 100%; }
+.hs-time input[type="range"] { flex: 1; min-width: 120px; accent-color: var(--hs-flow); }
+.hs-time output { min-width: 4.5em; font-variant-numeric: tabular-nums; color: var(--anatomy-strong); }
+
+/* Outside the live figure (the printed blueprint copies the drawing without its .hs wrapper):
+   the same fills with their light-theme values. The .hs rules above win inside the figure. */
+.hs-cavity { fill: #dcdcd6; }
+.hs-soil { fill: #cfd2cf; }
+.hs-glass > :is(.iso-fill, .iso-top, .iso-shade) { fill: #eef2f3; }
+.hs-downloads { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; font-family: var(--anatomy-mono); font-size: 11px; }
+.hs-downloads-label { color: var(--anatomy-muted); letter-spacing: .06em; text-transform: uppercase; margin-right: 4px; }
+.hs-downloads .hs-button { text-decoration: none; }

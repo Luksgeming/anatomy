@@ -1,0 +1,16 @@
+# dependencies and build output
+/node_modules
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+.DS_Store
+
+# verification screenshots and static previews
+/shots
+# blueprint working files (the PDF is copied to public/blueprint)
+/print/*.html
+/print/*.pdf
+/print/shots/

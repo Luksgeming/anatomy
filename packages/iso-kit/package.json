@@ -1,0 +1,15 @@
+{
+  "name": "@anatomy/iso-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Anatomy isometric kit (vendored from github.com/wheresryan22/anatomy), shared by every app in this repo.",
+  "type": "module",
+  "exports": {
+    "./iso.css": "./iso.css",
+    "./*.mjs": {
+      "types": "./*.d.mts",
+      "default": "./*.mjs"
+    },
+    "./react/*": "./react/*"
+  }
+}

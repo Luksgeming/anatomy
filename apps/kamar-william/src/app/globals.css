@@ -1,0 +1,61 @@
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0d0b0a; }
+body {
+  --ink: #f4e9da; --muted: #bba78f; --glass: rgba(28, 22, 17, 0.62); --edge: rgba(255, 214, 170, 0.14); --amber: #ffad66;
+  color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; }
+
+.kw { position: fixed; inset: 0; touch-action: none; user-select: none; }
+.kw canvas { display: block; cursor: grab; }
+.kw canvas:active { cursor: grabbing; }
+
+.kw-head { position: absolute; top: 16px; left: 16px; max-width: calc(100% - 32px); pointer-events: none; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); }
+.kw-head h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: 0.01em; }
+.kw-head p { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+
+.kw-cross { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px; border-radius: 50%; background: rgba(255, 240, 220, 0.55); pointer-events: none; }
+.kw-tip {
+  position: absolute; left: 50%; top: calc(50% + 18px); transform: translateX(-50%); display: grid; gap: 2px; text-align: center;
+  padding: 7px 12px; border-radius: 10px; background: var(--glass); border: 1px solid var(--edge); backdrop-filter: blur(10px);
+  font-size: 13px; pointer-events: none; white-space: nowrap;
+}
+.kw-tip span { font-size: 11.5px; color: var(--muted); }
+
+.kw-views, .kw-panel, .kw-pad { position: absolute; }
+.kw-views { left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: var(--glass); border: 1px solid var(--edge); backdrop-filter: blur(10px); max-width: calc(100% - 32px); overflow-x: auto; }
+.kw-views button, .kw-panel button { border: 0; background: transparent; padding: 8px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; color: var(--muted); transition: background 160ms, color 160ms; }
+.kw-views button:hover, .kw-panel button:hover { color: var(--ink); }
+.kw-views button[data-on], .kw-panel button[data-on] { background: rgba(255, 173, 102, 0.16); color: var(--ink); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.kw-panel { top: 16px; right: 16px; width: 300px; max-width: calc(100% - 32px); border-radius: 14px; background: var(--glass); border: 1px solid var(--edge); backdrop-filter: blur(12px); padding: 6px; }
+.kw-panel:not([data-open]) { width: auto; }
+.kw-panel .kw-panel-toggle { width: 100%; text-align: left; color: var(--ink); }
+.kw-panel-body { display: grid; gap: 8px; padding: 4px 4px 6px; }
+.kw-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.kw-row button { flex: 1; background: rgba(255, 255, 255, 0.04); }
+.kw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.kw-grid button { display: flex; align-items: center; gap: 8px; text-align: left; background: rgba(255, 255, 255, 0.04); }
+.kw-grid i { width: 8px; height: 8px; border-radius: 50%; background: #4a3f35; flex: none; transition: background 200ms, box-shadow 200ms; }
+.kw-grid button[data-on] i { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+.kw-dim { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); padding: 2px 6px; }
+.kw-dim input { flex: 1; accent-color: var(--amber); }
+
+.kw-pad { right: 16px; bottom: 16px; display: grid; grid-template-columns: repeat(3, 44px); gap: 4px; }
+.kw-pad button { height: 44px; border-radius: 10px; border: 1px solid var(--edge); background: var(--glass); backdrop-filter: blur(10px); font-size: 16px; cursor: pointer; touch-action: none; }
+.kw-pad button:active { background: rgba(255, 173, 102, 0.22); }
+@media (hover: hover) and (pointer: fine) { .kw-pad { opacity: 0.55; } .kw-pad:hover { opacity: 1; } }
+
+@media (max-width: 640px) {
+  .kw-head p { display: none; }
+  .kw-panel { top: auto; bottom: 72px; right: 16px; left: 16px; width: auto; max-height: 45vh; overflow-y: auto; }
+  .kw-views { bottom: 16px; left: 16px; right: 164px; transform: none; }
+  .kw-pad { grid-template-columns: repeat(3, 40px); }
+  .kw-pad button { height: 40px; }
+}
+
+.kw-photo { position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 8px; padding: 4px; border-radius: 12px; background: var(--glass); border: 1px solid var(--edge); backdrop-filter: blur(10px); }
+.kw-photo button { border: 0; background: rgba(255, 173, 102, 0.16); color: var(--ink); padding: 8px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.kw-photo a { color: var(--ink); padding: 8px 12px; border-radius: 8px; font-size: 13px; text-decoration: none; background: rgba(255, 255, 255, 0.05); white-space: nowrap; }
+@media (max-width: 640px) { .kw-photo { bottom: auto; top: 56px; } 

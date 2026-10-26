@@ -1,0 +1,12 @@
+# verification screenshots and static previews
+/shots
+/src/figures/homestead/generated/preview*.html
+# rebuilt from data/homestead.json by `npm run scene`
+/src/figures/homestead/generated/scene.json
+# undo history for the edit box
+/data/homestead-history.json
+# blueprint working files (the PDFs are copied to public/blueprint)
+/print/*.html
+/print/*.png
+/print/*.pdf
+/src/figures/homestead/generated/views/

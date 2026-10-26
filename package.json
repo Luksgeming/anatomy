@@ -1,0 +1,19 @@
+{
+  "name": "anatomy",
+  "private": true,
+  "description": "Isometric figures built with the Anatomy kit. Each app in apps/ runs on its own.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:rumah": "npm run dev -w apps/rumah",
+    "build:rumah": "npm run build -w apps/rumah",
+    "start:rumah": "npm run start -w apps/rumah",
+    "audit:rumah": "npm run audit -w apps/rumah",
+    "blueprint:rumah": "npm run blueprint -w apps/rumah",
+    "dev:kamar": "npm run dev -w apps/kamar-william",
+    "build:kamar": "npm run build -w apps/kamar-william",
+    "start:kamar": "npm run start -w apps/kamar-william"
+  }
+}
